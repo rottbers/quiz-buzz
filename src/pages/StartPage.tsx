@@ -1,12 +1,9 @@
 import React from 'react';
 import { DiReact as ReactLogo } from 'react-icons/di';
-import { useStateContext } from '../contexts/StateContext';
-
+import { useAppState, useAppDispatch } from '../contexts/StateContext';
 import Layout from '../components/Layout';
 import RadioGroup from '../components/RadioGroup';
 import { getQuestions } from '../utils';
-
-import { getQuestions } from '../utilities';
 import { Type, Difficulty } from '../types';
 
 export default function StartPage() {
