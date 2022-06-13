@@ -1,6 +1,5 @@
 module.exports = {
-  purge: ['./index.html', './src/**/*.tsx'],
-  darkMode: false,
+  content: ['./index.html', './src/**/*.tsx'],
   theme: {
     extend: {
       screens: {
@@ -18,15 +17,6 @@ module.exports = {
           '100%': { transform: 'rotate(360deg)' },
         },
       },
-    },
-  },
-  variants: {
-    extend: {
-      animation: ['motion-safe'],
-      borderColor: ['disabled'],
-      borderWidth: ['last'],
-      cursor: ['disabled', 'hover'],
-      textColor: ['disabled'],
     },
   },
   plugins: [],
