@@ -1,16 +1,14 @@
 import React from 'react';
 import { DiReact as ReactLogo } from 'react-icons/di';
-import { useStateContext } from '../contexts/StateContext';
-
+import { useAppState, useAppDispatch } from '../contexts/StateContext';
 import Layout from '../components/Layout';
 import RadioGroup from '../components/RadioGroup';
-
-import { getQuestions } from '../utilities';
+import { getQuestions } from '../utils';
 import { Type, Difficulty } from '../types';
 
-const StartPage: React.FC = () => {
-  const { state, dispatch } = useStateContext();
-  const { type, difficulty, rounds, status } = state;
+export default function StartPage() {
+  const { type, difficulty, rounds, status } = useAppState();
+  const dispatch = useAppDispatch();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -110,6 +108,4 @@ const StartPage: React.FC = () => {
       </form>
     </Layout>
   );
-};
-
-export default StartPage;
+}

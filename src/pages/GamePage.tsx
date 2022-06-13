@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { MdCheck, MdClose } from 'react-icons/md';
-import { useStateContext } from '../contexts/StateContext';
+import { useAppDispatch, useAppState } from '../contexts/StateContext';
 import Layout from '../components/Layout';
 
-const GamePage: React.FC = () => {
+export default function GamePage() {
   const shouldReduceMotion = useReducedMotion();
-  const { state, dispatch } = useStateContext();
-  const { round, rounds, score, questions, userAnswers } = state;
+  const { round, rounds, score, questions, userAnswers } = useAppState();
+  const dispatch = useAppDispatch();
 
   const { question, all_answers, correct_answer } = questions[round];
   const userAnswer = userAnswers[round];
@@ -85,6 +85,4 @@ const GamePage: React.FC = () => {
       </div>
     </Layout>
   );
-};
-
-export default GamePage;
+}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { MdCheck, MdClose } from 'react-icons/md';
-import { useStateContext } from '../contexts/StateContext';
+import { useAppDispatch, useAppState } from '../contexts/StateContext';
 import Layout from '../components/Layout';
 
-const GameSummaryPage: React.FC = () => {
+export default function GameSummaryPage() {
   const shouldReduceMotion = useReducedMotion();
-  const { state, dispatch } = useStateContext();
-  const { userAnswers, questions, rounds, score } = state;
+  const { userAnswers, questions, rounds, score } = useAppState();
+  const dispatch = useAppDispatch();
 
   const percentage = Math.round((score / rounds) * 100);
 
@@ -82,6 +82,4 @@ const GameSummaryPage: React.FC = () => {
       </button>
     </Layout>
   );
-};
-
-export default GameSummaryPage;
+}

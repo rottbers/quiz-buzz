@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
 
-const LoadingPage: React.FC = () => (
+const LoadingPage = () => (
   <Layout className="justify-center">
     <div className="text-9xl">
       <svg
