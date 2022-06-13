@@ -1,15 +1,19 @@
 import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { StateProvider } from './contexts/StateContext';
 import App from './App';
-
 import './styles/tailwind.css';
 
-ReactDOM.render(
+const root = document.getElementById('root');
+
+if (!root) {
+  throw new Error('root not found');
+}
+
+createRoot(root).render(
   <StrictMode>
     <StateProvider>
       <App />
     </StateProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
