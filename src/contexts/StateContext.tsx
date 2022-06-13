@@ -12,18 +12,18 @@ type State = {
   userAnswers: string[];
 };
 
-type Event =
+type Action =
   | { type: 'IDLE' | 'LOADING' | 'ERROR' | 'NEXT_ROUND' }
   | { type: 'PLAY'; data: { questions: Question[] } }
   | { type: 'UPDATE_SETTINGS'; data: Partial<Settings> }
   | { type: 'SUBMIT_ANSWER'; data: { answer: string } };
 
-function reducer(state: State, event: Event): State {
+function reducer(state: State, action: Action): State {
   switch (state.status) {
     case 'idle': {
-      switch (event.type) {
+      switch (action.type) {
         case 'UPDATE_SETTINGS': {
-          return { ...state, ...event.data };
+          return { ...state, ...action.data };
         }
         case 'LOADING':
           return { ...state, status: 'loading' };
@@ -32,9 +32,9 @@ function reducer(state: State, event: Event): State {
       }
     }
     case 'loading': {
-      switch (event.type) {
+      switch (action.type) {
         case 'PLAY': {
-          const { questions } = event.data;
+          const { questions } = action.data;
           return {
             ...state,
             questions,
@@ -51,9 +51,9 @@ function reducer(state: State, event: Event): State {
       }
     }
     case 'playing': {
-      switch (event.type) {
+      switch (action.type) {
         case 'SUBMIT_ANSWER': {
-          const { answer } = event.data;
+          const { answer } = action.data;
           const correctAnswer = state.questions[state.round].correct_answer;
           const userAnswers = [...state.userAnswers, answer];
           const score = answer === correctAnswer ? state.score + 1 : state.score; // prettier-ignore
@@ -70,7 +70,7 @@ function reducer(state: State, event: Event): State {
       }
     }
     case 'gameover': {
-      switch (event.type) {
+      switch (action.type) {
         case 'IDLE':
           return { ...state, status: 'idle' };
         default:
@@ -78,7 +78,7 @@ function reducer(state: State, event: Event): State {
       }
     }
     case 'error': {
-      switch (event.type) {
+      switch (action.type) {
         case 'IDLE':
           return { ...state, status: 'idle' };
         default:
@@ -100,7 +100,7 @@ const initialState: State = {
 };
 
 const AppStateContext = createContext<State>(initialState);
-const AppDispatchContext = createContext<React.Dispatch<Event>>(() => null);
+const AppDispatchContext = createContext<React.Dispatch<Action>>(() => null);
 
 export const StateProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
