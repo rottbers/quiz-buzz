@@ -1,9 +1,10 @@
 import React from 'react';
-import { useStateContext } from '../contexts/StateContext';
+import { useAppDispatch } from '../contexts/StateContext';
 import Layout from '../components/Layout';
 
-const ErrorPage: React.FC = () => {
-  const { dispatch } = useStateContext();
+export default function ErrorPage() {
+  const dispatch = useAppDispatch();
+
   return (
     <Layout className="justify-center">
       <h1 className="text-4xl md:text-5xl font-black mb-4">Ohoh! Error...</h1>
@@ -28,6 +29,4 @@ const ErrorPage: React.FC = () => {
       </button>
     </Layout>
   );
-};
-
-export default ErrorPage;
+}

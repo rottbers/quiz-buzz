@@ -1,14 +1,13 @@
 import React from 'react';
-import { useStateContext } from './contexts/StateContext';
-
+import { useAppState } from './contexts/StateContext';
 import LoadingPage from './pages/LoadingPage';
 import ErrorPage from './pages/ErrorPage';
 import GamePage from './pages/GamePage';
 import GameSummaryPage from './pages/GameSummaryPage';
 import StartPage from './pages/StartPage';
 
-const App: React.FC = () => {
-  const { state: { status } } = useStateContext(); // prettier-ignore
+export default function App() {
+  const { status } = useAppState();
 
   switch (status) {
     case 'loading':
@@ -22,6 +21,4 @@ const App: React.FC = () => {
     case 'idle':
       return <StartPage />;
   }
-};
-
-export default App;
+}

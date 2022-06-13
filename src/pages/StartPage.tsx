@@ -8,9 +8,9 @@ import RadioGroup from '../components/RadioGroup';
 import { getQuestions } from '../utilities';
 import { Type, Difficulty } from '../types';
 
-const StartPage: React.FC = () => {
-  const { state, dispatch } = useStateContext();
-  const { type, difficulty, rounds, status } = state;
+export default function StartPage() {
+  const { type, difficulty, rounds, status } = useAppState();
+  const dispatch = useAppDispatch();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -110,6 +110,4 @@ const StartPage: React.FC = () => {
       </form>
     </Layout>
   );
-};
-
-export default StartPage;
+}

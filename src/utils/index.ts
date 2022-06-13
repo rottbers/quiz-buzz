@@ -1,11 +1,6 @@
-import { UnformattedQuestions, Questions, Settings } from '../types';
+import type { RawQuestion, Settings, Question } from '../types';
 
-interface Session {
-  token: string;
-  tokenLastUsed: number;
-}
-
-function formatQuestions(questions: UnformattedQuestions): Questions {
+function formatQuestions(questions: RawQuestion[]): Question[] {
   function decodeHTML(html: string) {
     const text = document.createElement('textarea');
     text.innerHTML = html;
@@ -44,6 +39,11 @@ function formatQuestions(questions: UnformattedQuestions): Questions {
   return formattedQuestions;
 }
 
+type Session = {
+  token: string;
+  tokenLastUsed: number;
+};
+
 // to prevent getting the same question twice a session token is used
 // with each request (expires after 6 hours of inactivity).
 async function getSession(): Promise<Session> {
@@ -54,37 +54,29 @@ async function getSession(): Promise<Session> {
     return session;
   }
 
-  try {
-    const tokenURL = 'https://opentdb.com/api_token.php?command=request';
+  const tokenURL = 'https://opentdb.com/api_token.php?command=request';
 
-    const response = await fetch(tokenURL);
-    const { token }: { token: string } = await response.json();
+  const response = await fetch(tokenURL);
+  const { token }: { token: string } = await response.json();
 
-    const newSession = { token, tokenLastUsed: 0 };
-    return newSession;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const newSession = { token, tokenLastUsed: 0 };
+  return newSession;
 }
 
-export async function getQuestions(settings: Settings): Promise<Questions> {
-  try {
-    const { token } = await getSession();
+export async function getQuestions(settings: Settings): Promise<Question[]> {
+  const { token } = await getSession();
 
-    const { difficulty, type, rounds } = settings;
-    const questionsURL = `https://opentdb.com/api.php?difficulty=${difficulty}&type=${type}&amount=${rounds}&token=${token}`;
+  const { difficulty, type, rounds } = settings;
+  const questionsURL = `https://opentdb.com/api.php?difficulty=${difficulty}&type=${type}&amount=${rounds}&token=${token}`;
 
-    const response = await fetch(questionsURL);
-    const { results }: { results: UnformattedQuestions } = await response.json(); // prettier-ignore
+  const response = await fetch(questionsURL);
+  const { results }: { results: RawQuestion[] } = await response.json(); // prettier-ignore
 
-    const session = { token, tokenLastUsed: Date.now() };
-    localStorage.setItem('session', JSON.stringify(session));
+  const session = { token, tokenLastUsed: Date.now() };
+  localStorage.setItem('session', JSON.stringify(session));
 
-    const questions = formatQuestions(results);
-    return questions;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const questions = formatQuestions(results);
+  return questions;
 }
 
 export function capitalizeString(string: string): string {
