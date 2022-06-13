@@ -4,6 +4,7 @@ import { useStateContext } from '../contexts/StateContext';
 
 import Layout from '../components/Layout';
 import RadioGroup from '../components/RadioGroup';
+import { getQuestions } from '../utils';
 
 import { getQuestions } from '../utilities';
 import { Type, Difficulty } from '../types';

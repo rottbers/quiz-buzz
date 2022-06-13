@@ -1,19 +1,14 @@
 import React from 'react';
-import { capitalizeString } from '../utilities';
+import { capitalizeString } from '../utils';
 
-interface Props {
+type Props = {
   name: string;
   options: string[];
   selectedOption: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
-const RadioGroup: React.FC<Props> = ({
-  name,
-  options,
-  selectedOption,
-  onChange,
-}) => (
+const RadioGroup = ({ name, options, selectedOption, onChange }: Props) => (
   <div className="w-full flex flex-row justify-between rounded-md border-2 border-white focus-within:ring">
     {options.map((option) => {
       const optionId = `${name}-${option}`;
